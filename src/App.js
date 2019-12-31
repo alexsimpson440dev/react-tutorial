@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import Todos from './components/Todos';
-import './App.css';
+import Todos from './components/Todos'
+import NewTodo from './components/NewTodo'
+import './App.css'
 
 class App extends Component {
   state = {
@@ -23,6 +24,7 @@ class App extends Component {
     ]
   }
 
+  // cross out todo
   markComplete = (id) => {
     this.setState(
       { 
@@ -35,10 +37,35 @@ class App extends Component {
       });
   }
 
+  // delete todo
+  deleteItem = (id) => {
+    this.setState(
+      {
+        todos: [...this.state.todos.filter(todo => todo.id !== id)]
+      }
+    )
+  }
+
+  // adds new todo
+  addTodo = (title) => {
+    let newTodo = {
+      id: this.state.todos.length+1,
+      title: title,
+      completed: false
+    }
+    this.setState(
+      {
+        todos: [...this.state.todos.concat(newTodo)]
+      }
+    )
+    console.log(title)
+  }
+
   render() {
     return (
       <div className="App">
-        <Todos todos={this.state.todos} markComplete={this.markComplete} />
+        <NewTodo addTodo={this.addTodo} />
+        <Todos todos={this.state.todos} markComplete={this.markComplete} deleteItem={this.deleteItem} />
       </div>
     );
   }
