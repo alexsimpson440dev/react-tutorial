@@ -1,28 +1,20 @@
 import React, { Component } from 'react'
-import Header from './components/layout/header'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import Header from './components/layout/Header'
+import About from './components/pages/About'
 import Todos from './components/Todos'
 import NewTodo from './components/NewTodo'
 import './App.css'
 
 class App extends Component {
   state = {
-    todos: [
-      {
-        id: 1,
-        title: 'Take out the trash',
-        completed: false
-      },
-      {
-        id: 2,
-        title: 'Make dinner',
-        completed: false
-      },
-      {
-        id: 3,
-        title: 'Meeting',
-        completed: false
-      }
-    ]
+    todos: []
+  }
+
+  async componentDidMount() {
+    const res = await fetch('https:/jsonplaceholder.typicode.com/todos?_limit=10')
+    const json = await res.json()
+    this.setState({ todos: json })
   }
 
   // cross out todo
@@ -63,11 +55,18 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <Header />
-        <NewTodo addTodo={this.addTodo} />
-        <Todos todos={this.state.todos} markComplete={this.markComplete} deleteItem={this.deleteItem} />
-      </div>
+      <Router>
+        <div className="App">
+          <Header />
+          <Route exact path="/" render={props => (
+            <React.Fragment>
+              <NewTodo addTodo={this.addTodo} />
+              <Todos todos={this.state.todos} markComplete={this.markComplete} deleteItem={this.deleteItem} />
+            </React.Fragment>
+          )} />
+          <Route path="/about" component={About} />
+        </div>
+      </Router>
     );
   }
 }
