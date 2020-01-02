@@ -4,25 +4,28 @@ export class NewTodo extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            inputValue: ''
+            title: ''
         };
     }
 
     handleChange = (e) => {
         this.setState({
-            inputValue: e.target.value
+            [e.target.name]: e.target.value
         });
+    }
+
+    submit = (e) => {
+        e.preventDefault();
+        this.props.addTodo(this.state.title)
+        this.setState({ title: '' })
     }
 
     render() {
         return (
-            <div>
-                <p>
-                    { "Todo Name: " }
-                    <input type="text" value={this.state.inputValue} placeholder="Create new Todo" onChange={ (e) => this.handleChange(e) } />
-                    <button onClick={ () => this.props.addTodo(this.state.inputValue)}>Add Todo</button>
-                </p>
-            </div>
+            <p style={{display: 'flex'}}>
+                <input type="text" name="title" value={this.state.title} placeholder="Create new Todo" onChange={ this.handleChange } style={{flex: '10', padding: '5px'}} />
+                <button onClick={ this.submit } style={{flex: '1'}} >Add Todo</button>
+            </p>
         )
     }
 }

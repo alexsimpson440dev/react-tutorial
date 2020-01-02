@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Header from './components/layout/header'
 import Todos from './components/Todos'
 import NewTodo from './components/NewTodo'
 import './App.css'
@@ -58,12 +59,12 @@ class App extends Component {
         todos: [...this.state.todos.concat(newTodo)]
       }
     )
-    console.log(title)
   }
 
   render() {
     return (
       <div className="App">
+        <Header />
         <NewTodo addTodo={this.addTodo} />
         <Todos todos={this.state.todos} markComplete={this.markComplete} deleteItem={this.deleteItem} />
       </div>
