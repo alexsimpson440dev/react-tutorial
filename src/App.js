@@ -34,7 +34,7 @@ class App extends Component {
   deleteItem = (id) => {
     this.setState(
       {
-        todos: [...this.state.todos.filter(todo => todo.id !== id)]
+        todos: [...this.state.todos.filter(todo => todo.id !== id)] // the three dots (...) gets the current state
       }
     )
   }
